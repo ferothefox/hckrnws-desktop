@@ -3,6 +3,7 @@
   "description": "Cross-platform hckrnws desktop app",
   "author": "hckrnws",
   "private": true,
+  "type": "module",
   "version": "0.1.0",
   "scripts": {
     "dev": "vite",
