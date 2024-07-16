@@ -26,10 +26,23 @@ function createWindow() {
   const view = new electron.WebContentsView();
   win.contentView.addChildView(view);
   view.webContents.loadURL("https://hn.evan.graphics");
+  view.webContents.setWindowOpenHandler(({ url }) => {
+    electron.shell.openExternal(url);
+    return { action: "deny" };
+  });
+  view.webContents.on("will-navigate", function(e, url) {
+    e.preventDefault();
+    electron.shell.openExternal(url);
+  });
   view.setBackgroundColor("#000000");
   view.setBounds({ x: 0, y: 28, width: 1200, height: 800 - 28 });
   win.on("resize", () => {
-    view.setBounds({ x: 0, y: 28, width: win.getBounds().width, height: win.getBounds().height - 28 });
+    view.setBounds({
+      x: 0,
+      y: 28,
+      width: win.getBounds().width,
+      height: win.getBounds().height - 28
+    });
   });
   if (VITE_DEV_SERVER_URL) {
     win.loadURL(VITE_DEV_SERVER_URL);
